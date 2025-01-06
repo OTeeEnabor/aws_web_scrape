@@ -2,7 +2,7 @@ import time
 from web_scrape.store_scrape import StoreScraper
 
 if __name__ == "__main__":
-    start = time.perf_counter()
+    # start = time.perf_counter()
 
     # initialize a StoreScraper object
     store_scraper = StoreScraper()
