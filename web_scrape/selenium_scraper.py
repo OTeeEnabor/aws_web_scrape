@@ -46,7 +46,7 @@ def create_driver():
     options.add_argument("--disable-infobars")
     options.add_argument("--disable-extensions")
     # define the path of the driver
-    DRIVER_PATH = Path(str(Path.cwd()) + r"/web_scrape/chromedriver.exe")
+    DRIVER_PATH = Path(str(Path.cwd()) + r"/web_scrape/chromedriver-linux64")
     # define the service object
     serv_obj = Service(DRIVER_PATH, service_args=["--log-level=INFO"])
     # create selenium driver

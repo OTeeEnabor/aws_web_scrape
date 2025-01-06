@@ -46,7 +46,7 @@ class StoreScraper:
             self.date_stamp = date_stamp
         # initialize store information dictionary
         self.store_information_dict = helpers.get_store_url_dict(
-            r"Store_Category_Sheet.xlsx"
+            r"Store_Category_Sheet_test.xlsx"
         )
         # initialize storage path
         self.storage_path = Path.cwd() / "data" / "stores"
