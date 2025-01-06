@@ -70,7 +70,7 @@ class StoreScraper:
         }
 
         formatter = logging.Formatter(log_config["FORMATTER_FORMAT"])
-        file_handler = logging.FileHandler(log_config["LOG_FILE"])
+        file_handler = logging.FileHandler(log_config["LOG_FILE"], mode="w")
         file_handler.setFormatter(formatter)
         file_handler.setLevel(logging.INFO)
         self.store_scraper_logger.addHandler(file_handler)
