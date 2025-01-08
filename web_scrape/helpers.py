@@ -79,12 +79,11 @@ def create_product_urls_csv(product_urls_list: list, product_category: str, curr
     }
     # convert a dictionary to pandas dataframe
     product_urls_df = pd.DataFrame(product_dict)
-
     # write pandas dataframe to a csv
     product_urls_df.to_csv(Path(f"{store_path}/{product_category}.csv"), index=False)
     # give the confirmation product_urls_csv saved
     helper_logger.info(f"{store_path}/{product_category}.csv saved")
-    # print(f"{store_path}\\{product_category}.csv saved")
+    
 
 
 def sanitize_category(raw_category: str) -> str:
