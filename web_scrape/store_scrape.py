@@ -7,6 +7,7 @@ import os
 import numpy as np
 import pandas as pd
 from pathlib import Path
+from cloudpathlib import S3Path
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -49,7 +50,7 @@ class StoreScraper:
             r"Store_Category_Sheet_test.xlsx"
         )
         # initialize storage path
-        self.storage_path = Path.cwd() / "data" / "stores"
+        self.storage_path = S3Path("s3://aws-web-scrape") / "data" / "stores"
         # log when Store Scraper is created
         # create StoreScraper Logger
         self.store_scraper_logger = logging.getLogger(__name__)
@@ -58,7 +59,7 @@ class StoreScraper:
 
         # log_file_location
         log_file_location = (
-            Path.cwd()
+            S3Path("s3://aws-web-scrape/logs/")
             / "logs"
             / "store_scraper"
             / f"store_scraper_obj_{self.date_stamp}.log"
@@ -177,7 +178,6 @@ class StoreScraper:
                     results = executor.map(
                         selenium_scrape.get_woolies_product_data, csv_list
                     )
-                   
 
             if store == "Checkers":
                 with concurrent.futures.ProcessPoolExecutor() as executor:
@@ -185,7 +185,6 @@ class StoreScraper:
                     results = executor.map(
                         selenium_scrape.get_checkers_product_data, csv_list
                     )
-                
 
             results = list(np.concatenate(list(results)).flat)
             # create output csv
@@ -236,21 +235,23 @@ class StoreScraper:
             df = df.drop_duplicates(subset=["barcode"])
             # drop info_date column if it exists
             if "info_date" in df.columns:
-                df = df.drop("info_date",axis=1)
-                
+                df = df.drop("info_date", axis=1)
+
             # save file to processed folder
             save_path = (
                 self.storage_path
                 / f"{raw_file.parent.parent.parent.parent.name}"
                 / f"{raw_file.parent.parent.parent.name}"
                 / f"{raw_file.parent.parent.name}"
-                /f"processed"
+                / f"processed"
                 / f"processed_products_data_{self.date_stamp}.csv"
             )
             # save file to csv
             df.to_csv(save_path, index=False)
             # print(save_path)
-            self.store_scraper_logger.info(f"File processed and saved to - {save_path}.")
+            self.store_scraper_logger.info(
+                f"File processed and saved to - {save_path}."
+            )
 
     def upload_products(self, scrape_date=None):
 
@@ -267,9 +268,15 @@ class StoreScraper:
         processed_file_path_list = []
         # populate list with path to processed files
         for store_path in store_paths:
-            # create processed path 
-            processed_file_path = store_path/ f"{self.date_stamp}" / f"{store_path.name}_product_data" / "processed" / f"processed_products_data_{self.date_stamp}.csv"
-            # upload file 
+            # create processed path
+            processed_file_path = (
+                store_path
+                / f"{self.date_stamp}"
+                / f"{store_path.name}_product_data"
+                / "processed"
+                / f"processed_products_data_{self.date_stamp}.csv"
+            )
+            # upload file
             # database.upload_products(processed_file_path)
 
             print(f"{processed_file_path} - uploaded!")
