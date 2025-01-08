@@ -59,7 +59,7 @@ class StoreScraper:
 
         # log_file_location
         log_file_location = (
-            S3Path("s3://aws-web-scrape/logs/")
+            Path.cwd()
             / "logs"
             / "store_scraper"
             / f"store_scraper_obj_{self.date_stamp}.log"
