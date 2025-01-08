@@ -95,10 +95,6 @@ def get_checkers_price(soup_price_string):
         product_price = product_price.replace("R", "")
     return float(product_price)
 
-    # page_soup.css.select(f".prod--price")[0].get_text()
-    # product_price = float(
-    #             page_soup.css.select(f".prod--price")[0].get_text().replace("R ", "")
-    #         )
 
 
 def get_woolworth_urls(driver) -> list:
