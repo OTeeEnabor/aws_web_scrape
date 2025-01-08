@@ -7,7 +7,7 @@ import os
 import numpy as np
 import pandas as pd
 from pathlib import Path
-from cloudpathlib import S3Path
+import boto3
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -50,7 +50,7 @@ class StoreScraper:
             r"Store_Category_Sheet_test.xlsx"
         )
         # initialize storage path
-        self.storage_path = S3Path("s3://aws-web-scrape") / "data" / "stores"
+        self.storage_path = Path.cwd() / "data" / "stores"
         # log when Store Scraper is created
         # create StoreScraper Logger
         self.store_scraper_logger = logging.getLogger(__name__)
@@ -277,6 +277,43 @@ class StoreScraper:
                 / f"processed_products_data_{self.date_stamp}.csv"
             )
             # upload file
+
+            # database.upload_products(processed_file_path)
+
+            print(f"{processed_file_path} - uploaded!")
+
+    def upload_products_s3(self, scrape_data=None):
+
+        # connect to AWS
+        aws_console = boto3.session.Session(profile_name="default")
+        # access Amazon S3
+        s3_client = aws_console.client(service_name="s3")
+        # if scrape_date argument not given
+        if scrape_date is None:
+            # use current date
+            scrape_date = self.date_stamp
+        # otherwise use the given scrape_date
+        else:
+            self.date_stamp = scrape_date
+        # get storage path
+        store_paths = [dir for dir in self.storage_path.iterdir() if dir.is_dir()]
+        # create processed_data_path list
+        processed_file_path_list = []
+        # populate list with path to processed files
+        for store_path in store_paths:
+            # create processed path
+            processed_file_path = (
+                store_path
+                / f"{self.date_stamp}"
+                / f"{store_path.name}_product_data"
+                / "processed"
+                / f"processed_products_data_{self.date_stamp}.csv"
+            )
+            # upload file s3 bucket
+            s3_bucket_name = "aws_web_scrape"
+            upload_file_key = f"stores/{store_path.name}/{self.date_stamp}/{store_path.name}_product_data/processed/"
+
+            s3_client.upload_file(processed_file_path, s3_bucket_name, upload_file_key)
             # database.upload_products(processed_file_path)
 
             print(f"{processed_file_path} - uploaded!")
