@@ -170,25 +170,33 @@ class StoreScraper:
     def get_product_data(self, scrape_date=None):
         # call get product csv dict - creates dictionary {store:[list of csvs]}
         product_url_dict = self.get_product_csv_dict(scrape_date)
+
         # for each store and its list of csvs
         for store, csv_list in product_url_dict.items():
+
             if store == "Woolworths":
+
                 with concurrent.futures.ProcessPoolExecutor() as executor:
+
                     # execute get product data from checkers asynchronously
                     results = executor.map(
                         selenium_scrape.get_woolies_product_data, csv_list
                     )
 
             if store == "Checkers":
+
                 with concurrent.futures.ProcessPoolExecutor() as executor:
+
                     # execute get product data from checkers asynchronously
                     results = executor.map(
                         selenium_scrape.get_checkers_product_data, csv_list
                     )
 
             results = list(np.concatenate(list(results)).flat)
+            
             # create output csv
             product_data_df = pd.DataFrame(results)
+            
             self.store_scraper_logger.info(f"{store} product data frame created.")
 
             # create path for csv
