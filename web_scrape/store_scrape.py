@@ -196,7 +196,7 @@ class StoreScraper:
             
             # create output csv
             product_data_df = pd.DataFrame(results)
-            
+
             self.store_scraper_logger.info(f"{store} product data frame created.")
 
             # create path for csv
@@ -290,7 +290,7 @@ class StoreScraper:
 
             print(f"{processed_file_path} - uploaded!")
 
-    def upload_products_s3(self, scrape_data=None):
+    def upload_products_s3(self, scrape_date=None):
 
         # connect to AWS
         aws_console = boto3.session.Session(profile_name="default")
