@@ -328,6 +328,7 @@ def get_woolies_product_data(csv_file_path: str) -> list:
     """
     # initialise driver object
     sel_driver = create_driver()
+
     # try to read product urls csv
     try:
         # create product urls dataframe from csv file
@@ -344,7 +345,7 @@ def get_woolies_product_data(csv_file_path: str) -> list:
     # get the information date
     product_info_date = product_df["product_info_date"][0]
     # loop through the product_urls to scrape product data
-    for product_link in product_df["product_urls"]:
+    for product_link in product_df["product_urls"][0:10]:
         # create the product dictionary
         product_dict = {}
         # set the product category
