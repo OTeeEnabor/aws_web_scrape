@@ -40,9 +40,11 @@ class StoreScraper:
         # initialize current date
         self.current_date = date.today()
         self.current_date_month = "{:02d}".format(self.current_date.month)
-        # initialize date stamp
+
+        # initialize date stamp if no date stamp string is provided
         if date_stamp == None:
             self.date_stamp = f"{self.current_date.year}{self.current_date_month}{self.current_date.day}"
+        # else use provided date stamp string - YYYYMMDD
         else:
             self.date_stamp = date_stamp
         # initialize store information dictionary
@@ -318,7 +320,7 @@ class StoreScraper:
                 / f"processed_products_data_{self.date_stamp}.csv"
             )
             # upload file s3 bucket
-            s3_bucket_name = "aws_web_scrape"
+            s3_bucket_name = "aws-web-scrape"
             upload_file_key = f"stores/{store_path.name}/{self.date_stamp}/{store_path.name}_product_data/processed/"
 
             s3_client.upload_file(processed_file_path, s3_bucket_name, upload_file_key)
