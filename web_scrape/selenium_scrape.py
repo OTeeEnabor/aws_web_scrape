@@ -114,15 +114,13 @@ def get_woolworth_urls(driver) -> list:
             "Error occurred while trying to find the number of items on this page"
         )
         sel_scraper_logger.exception(error, stack_info=True, exc_info=True)
-        # print(f"An unexpected error occurred attempting to get product-count string - {error}")
+
     else:
         product_count_int = extract_number_from_string(product_count_str)
-        # print("*" * 25)
+        
         sel_scraper_logger.info(
             f"The number of products found for this category - {product_count_int}"
         )
-        # print(f"The number of products found for this category - {product_count_int}")
-        # print("*" * 25)
 
         if product_count_int == None:
             product_count_int = 500
@@ -216,7 +214,6 @@ def get_woolworth_urls(driver) -> list:
                 f"Woolworth next page button clicked - going to page - {page_counter}"
             )
             driver.implicitly_wait(10)
-
     return product_link_list
 
 
@@ -341,9 +338,9 @@ def get_woolies_product_data(csv_file_path: str) -> list:
     # define output list to store dictionaries
     output_list_dicts = []
     # get the product category
-    product_category = product_df["product_category"][0]
+    product_category = product_df.at[0,"product_category"]#[0]
     # get the information date
-    product_info_date = product_df["product_info_date"][0]
+    product_info_date = product_df.at[0,"product_info_date"]#[0]
     # loop through the product_urls to scrape product data
     for product_link in product_df["product_urls"][0:10]:
         # create the product dictionary
@@ -352,6 +349,7 @@ def get_woolies_product_data(csv_file_path: str) -> list:
         product_dict["category"] = product_category
         # set the date of product information - date collected
         product_dict["date"] = product_info_date
+        
         # scrape with beautiful soup
         try:
             # get the web page
@@ -435,9 +433,9 @@ def get_checkers_product_data(csv_file_path: str) -> list:
     # define output list to store dictionaries
     output_list_dicts = []
     # get the product category
-    product_category = product_df["product_category"][0]
+    product_category = product_df.at[0,"product_category"]#[0]
     # get the product information date
-    product_info_date = product_df["product_info_date"][0]
+    product_info_date = product_df.at[0,"product_info_date"]#[0]
     # loop through the product_urls to scrape products
     for product_link in product_df["product_urls"]:
 
