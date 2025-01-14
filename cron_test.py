@@ -8,5 +8,5 @@ now = datetime.now()
 current_time = now.strftime("%A, %B %d, %Y, %I %p %Z")
 
 
-with open("cron_test.txt", "a") as file:
+with open("/home/ubuntu/aws_web_scrape/cron_test.txt", "a") as file:
     file.write(f"Current Date and time :{now} \n")
