@@ -16,7 +16,7 @@ By the end of this project, the following will have been completed -
 ### Python Engine
 The Python Engine is composed of three `modules` which work together to achieve the web scraping functionality.
 
-#### selenium_scrape.py [include hyperlink]
+#### [selenium_scrape.py](/web_scrape/selenium_scrape.py)
 1. extract_number_from_string
 2. `create_driver()`:
 This solution uses `Selenium` ChromeWebdriver for automation of a Google Chrome browser. 
@@ -29,7 +29,8 @@ This method returns a list of URLs collected from a category page - e.g. `www.st
     ![Process flow diagram for method used to get list of woolworth product urls.](assets/images/process_flow_woolworth_urls.png) 
         a. `get_woolies_product_data(csv_file_path)`: This function accesses a csv containing the product urls from woolworth, and scrapes their webpage to collect information such as name, price, category, weight.
         ![Process flow diagram for method used to get product data from woolworth product urls.](assets/images/woolworht_product_data.png)
-    2. get_checkers_urls
+    2. `get_checkers_urls()`:Get the list of product URLs belonging in Checkers category pages.
+    ![Process flow diagram for method used to get list of Checkers product urls.](assets/images/get_checkers_product_urls.png) 
         a. click_next_page_button_checkers
         b. get_checkers_price
         c. get_checkers_product_data
