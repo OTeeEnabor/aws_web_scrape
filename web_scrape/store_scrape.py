@@ -96,24 +96,31 @@ class StoreScraper:
 
         # iterate through the store information dictionary
         for store, category_dict in store_information_dict.items():
+
             # create the directory for current date
             current_date_directory = storage_path / f"{store}" / f"{date_stamp}"
+
             helpers.create_directory(current_date_directory)
+
             # create directory to store product urls
             product_url_path = (
                 storage_path / f"{store}" / f"{date_stamp}" / f"{store}_product_urls"
             )
             helpers.create_directory(product_url_path)
+
             # create directory to store product url data
             product_data_path = (
                 storage_path / f"{store}" / f"{date_stamp}" / f"{store}_product_data"
             )
             helpers.create_directory(product_data_path)
-            # create raw and processed data
+
+            # create raw and processed data directories
             helpers.create_directory(product_data_path / "raw")
             helpers.create_directory(product_data_path / "processed")
+
             # access the information on the sheet
             for category, category_url in category_dict.items():
+
                 # get product urls from internet - scraping starts now
                 category_product_links = selenium_scrape.url_scraper(
                     category_url=category_url, store=store
@@ -321,7 +328,7 @@ class StoreScraper:
             )
             # upload file s3 bucket
             s3_bucket_name = "aws-web-scrape"
-            upload_file_key = f"stores/{store_path.name}/{self.date_stamp}/{store_path.name}_product_data/processed/"
+            upload_file_key = f"stores/{store_path.name}/{self.date_stamp}/{store_path.name}_product_data/processed/{self.date_stamp}.csv"
 
             s3_client.upload_file(processed_file_path, s3_bucket_name, upload_file_key)
             # database.upload_products(processed_file_path)
