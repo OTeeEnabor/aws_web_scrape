@@ -5,9 +5,10 @@ if __name__ == "__main__":
     # start = time.perf_counter()
 
     # initialize a StoreScraper object
-    store_scraper = StoreScraper("2025019")
+    store_scraper = StoreScraper()
+    
     # get product urls
-    # store_scraper.get_product_urls()
+    store_scraper.get_product_urls()
 
     # # get product data
     store_scraper.get_product_data()
