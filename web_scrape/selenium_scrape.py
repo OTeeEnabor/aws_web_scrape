@@ -342,7 +342,7 @@ def get_woolies_product_data(csv_file_path: str) -> list:
     # get the information date
     product_info_date = product_df.at[0,"product_info_date"]#[0]
     # loop through the product_urls to scrape product data
-    for product_link in product_df["product_urls"][0:10]:
+    for product_link in product_df["product_urls"]:
         # create the product dictionary
         product_dict = {}
         # set the product category
